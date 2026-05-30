@@ -29,7 +29,7 @@ function getGeminiClient(): GoogleGenAI {
 }
 
 // API to generate learning reflection based on keywords
-app.post("/api/generate-reflection", async (req, res) => {
+app.post(["/api/generate-reflection", "/generate-reflection"], async (req, res) => {
   try {
     const { keywords } = req.body;
     if (!keywords || typeof keywords !== "string" || !keywords.trim()) {
