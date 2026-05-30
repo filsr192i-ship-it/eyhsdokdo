@@ -44,6 +44,23 @@ export default function LessonWorkbook() {
         console.error('Failed to parse saved workbook data', e);
       }
     }
+
+    const handleImportText = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      if (customEvent.detail && customEvent.detail.text) {
+        setFormData(prev => {
+          const next = { ...prev, jointText: customEvent.detail.text };
+          localStorage.setItem('dokdo_workbook', JSON.stringify(next));
+          return next;
+        });
+        setSaved(true);
+        setTimeout(() => setSaved(false), 1200);
+      }
+    };
+    window.addEventListener('dokdo_import_text', handleImportText);
+    return () => {
+      window.removeEventListener('dokdo_import_text', handleImportText);
+    };
   }, []);
 
   const handleInputChange = (field: keyof WorkbookState, value: any) => {
